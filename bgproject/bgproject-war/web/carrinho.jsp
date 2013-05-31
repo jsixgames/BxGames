@@ -28,7 +28,7 @@
 
           <div id="conteudo">                                            
             <h1 id="titulocadastro">Carrinho de Compras</h1>
-            <div id="tabelalista2">                                        
+            <div id="tabelalista2">                                               
             <table id="tablistadesejos2">
                 <tbody>
                     <tr style="background-color: #dddddd">                    
@@ -37,9 +37,9 @@
                     <td id="titulocolunalistapedido">CATEGORIA</td>
                     <td id="titulocolunalistapedido">QUANTIDADE</td>
                     <td id="titulocolunalistapedido">PREÇO</td>                    
-                </tr>
+                </tr>                
                  <% 
-               List<Item_Pedido> list = (List<Item_Pedido>) session.getAttribute("listacarrinho");
+               List<Item_Pedido> list = (List<Item_Pedido>) session.getAttribute("listaitem");
                for(int i = 0; i < list.size();i++){
                    Item_Pedido ip = list.get(i);                   
                    String preco = new MetodosGerais().doubleTostring(ip.getPreco_total());                   
@@ -47,15 +47,20 @@
                     "<td id='linhatabelalistapedido'>" + ip.getProduto().getId_prod() + "</td>" +
                     "<td id='linhatabelalistapedido'>" + ip.getProduto().getNome() + "</td>" +
                     "<td id='linhatabelalistapedido'>" + ip.getProduto().getDepto() + "</td>" +                 
-                    "<td id='linhatabelalistapedido'>" + ip.getQtd() + "</td>" +
+                    "<td id='linhatabelalistapedido'><form action='CarrinhoServlet'>"
+                           +"<input type='hidden' name='evento' value='atualiza'>"
+                           +"<input type='hidden' name='item-id' value='"+i+"'>"
+                           + "<input type='number' value='" 
+                           + ip.getQtd() +"' name='qtdenova' min='1' style='width:35px'>"+
+                            "<input type='submit' value='Atualizar'></form>"
+                           +"</td>" +
                     "<td id='linhatabelalistapedido'>" + preco + "</td>" +                  
-                    "<td id='linhatabelalistapedido' style='border:0'>" + "<a href='ListaDesejosServlet?remover=true&prod-remove="
-                           +ip.getProduto().getId_prod()+"'"+">Remover</a>" + "</td>" +       
-                    "<td id='linhatabelalistapedido' style='border:0'>" + "<a href='CarrinhoServlet?btn-comprar=comprar1&prod-id="
-                           +ip.getProduto().getId_prod()+"'"+">Comprar</a>" + "</td>" +       
+                    "<td id='linhatabelalistapedido' style='border:0'>" + "<a href='CarrinhoServlet?evento=remover&item-id="
+                           +i+"'"+"><img id='imgremovecart' src='images/icon-rem.png'></a>" + "</td>" +       
+                    "<td id='linhatabelalistapedido' style='border:0'>" + "</td>" +       
                             "</tr>"                                                             
                            );
-               }                         
+               }                                             
                      %>
             </tbody>
             </table>                                              

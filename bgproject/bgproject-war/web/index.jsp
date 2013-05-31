@@ -38,6 +38,19 @@
                 </script>
                 <%session.removeAttribute("jaexiste"); %>
             </c:when>             
+            <c:when test="${sitcart == 0}"> 
+                <script language="JavaScript" type="text/javascript">
+                alert("Produto adicionado ao carrinho de compras com sucesso!");    
+                </script>
+                <%session.removeAttribute("sitcart"); %>
+            </c:when>             
+            <c:when test="${sitcart == 1}"> 
+                <script language="JavaScript" type="text/javascript">
+                alert("Este produto já está no carrinho de compras, caso queira mais uma unidade deste produto, entre no carrino e coloque a quantidade desejada e atualize o carrinho.");    
+                </script>
+                <%session.removeAttribute("sitcart"); %>
+            </c:when>             
+
             </c:choose>                  
         </div>
         

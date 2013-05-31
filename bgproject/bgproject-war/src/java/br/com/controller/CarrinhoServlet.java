@@ -5,6 +5,7 @@ import br.com.interfaces.Item_PedidoRemote;
 import br.com.interfaces.PedidoRemote;
 import br.com.interfaces.ProdutoRemote;
 import br.com.modelos.Item_Pedido;
+import br.com.modelos.Pedido;
 import br.com.modelos.Produto;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,61 +37,79 @@ public class CarrinhoServlet extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         try {
-            
-            try {
+                 if((session.getAttribute("listaitem")==null)){
+                 List<Item_Pedido> prim = new ArrayList<Item_Pedido>();
+                 session.setAttribute("listaitem", prim);
+                 }                 
+                 List<Item_Pedido> items = (List<Item_Pedido>) session.getAttribute("listaitem");
+                 
+            try {                            
              if(req.getParameter("btn-comprar").equals("comprar1") ||
-             req.getParameter("btn-comprar").equals("comprar2")){      
+             req.getParameter("btn-comprar").equals("comprar2")){                       
                  //set id e busca produto
                  Long id = Long.parseLong(req.getParameter("prod-id"));                 
-                 Produto p = pr.find(id);
-                 int indice = 9999;
-                 Item_Pedido ip = new Item_Pedido();
-                               
+                 Produto p = pr.find(id);                                                     
+                 
                  try {
-                 if(cart.getItems().isEmpty()){
-                 cart.addItem(ip);
-                 ip.setProduto(p);
-                 ip.setPreco_unidade(p.getPreco());
-                 ip.setQtd(1);                 
-                 ip.setPreco_total(ip.getPreco_unidade()*ip.getQtd());  
-                 session.setAttribute("qtde", cart.qtde());
+                     if (cart.getItems().isEmpty() || cart.getItems().contains(p) == false) {                         
+                         cart.addItem(p);
+                         Item_Pedido ip = new Item_Pedido();
+                         ip.setProduto(p);
+                         ip.setPreco_unidade(p.getPreco());
+                         ip.setQtd(1);
+                         ip.setPreco_total(ip.getQtd() * ip.getPreco_unidade());                                                  
+                         items.add(ip);                                                  
+                         session.setAttribute("listaitem", items);
+                         session.setAttribute("sitcart", 0);                         
+                     }else{
+                         if(cart.getItems().contains(p)){
+                             session.setAttribute("sitcart", 1);
+                         }
+                     }
+                     
+                 } catch (Exception e) {
+                     out.println("Erro ao adicionar item no carrinho");
+                 }                                  
+                                  
+                 session.setAttribute("qtde", items.size());
                  session.setAttribute("listacarrinho", cart.getItems());
                  req.getRequestDispatcher("index.jsp").forward(req, resp);
-                 }
-                 else{
-                     for(int i = 0; cart.qtde() >= i; i++){
-                         cart.getItems().get(i).equals(ip);
-                         if(cart.getItems().get(i).equals(ip) == true){
-                             System.out.print("A");
-                             cart.getItems().get(indice).setQtd((cart.getItems().get(indice).getQtd()) + 1);                 
-                             session.setAttribute("qtde", cart.qtde());                             
-                             session.setAttribute("listacarrinho", cart.getItems());
-                             req.getRequestDispatcher("index.jsp").forward(req, resp);  
-                             
-                         }
-                         else{
-                             System.out.print("B");                            
-                             cart.addItem(ip);
-                             session.setAttribute("qtde", cart.qtde());
-                             session.setAttribute("listacarrinho", cart.getItems());
-                             req.getRequestDispatcher("index.jsp").forward(req, resp);
-                         }}
-                 }
-                 }catch (Exception e) {
-                     out.println("Erro ao setar o novo item");
-                 }
-                 
             }                
             } catch (Exception e) {
                 out.println("Erro ao adicionar produto no carrinho");
             }
             
             try {
-                if (req.getParameter("mostrar").equals("1")) {
+                if (req.getParameter("mostrar").equals("1")) {                    
                     req.getRequestDispatcher("carrinho.jsp").forward(req, resp);
                 }
             } catch (Exception e) {
                 out.println("Erro ao redirecionar para a pagina do carrinho");
+            }
+            
+            try {
+                if (req.getParameter("evento").equals("atualiza")) {
+                    int i = Integer.parseInt(req.getParameter("item-id"));
+                    int qtd = Integer.parseInt(req.getParameter("qtdenova"));
+                    Item_Pedido ipx = items.get(i);
+                    ipx.setQtd(qtd);
+                    ipx.setPreco_total(ipx.getQtd()*ipx.getPreco_unidade());
+                    items.set(i, ipx);
+                    session.setAttribute("listaitem", items);
+                    req.getRequestDispatcher("carrinho.jsp").forward(req, resp);
+                }
+                if(req.getParameter("evento").equals("remover")){
+                    int i = Integer.parseInt(req.getParameter("item-id"));
+                    Produto px = items.get(i).getProduto();
+                    cart.removeItem(px);
+                    items.remove(i);
+                    session.setAttribute("listaitem", items);
+                    session.setAttribute("qtde", items.size());                    
+                    req.getRequestDispatcher("carrinho.jsp").forward(req, resp);
+                }
+                
+            } catch (Exception e) {
+                out.println("Erro remover ou atualizar");
             }
              
         } catch (Exception e) {

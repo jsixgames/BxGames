@@ -996,17 +996,23 @@ cursor: pointer;
 #titulocolunalistapedido{
     border: 1px solid #ccc;
     text-align: center;
+    backface-visibility:  visible;
     color: #535353;
-    font:16px museo-sans-1,sans-serif;            
+    font:14px museo-sans-1, sans-serif;            
     border-collapse: collapse;
-    padding: 5px;
+    padding: 2px;
 }
 
 #linhatabelalistapedido{
-    border: 1px solid #ccc;
+    border: 0px solid #ccc;
     text-align: center;
     color: #333333;
     font:15px museo-sans-1,sans-serif;            
     border-collapse: collapse;
-    padding: 5px;
+    padding: 10px;
+}
+
+#imgremovecart{
+    width: 20px;
+    height: 20px;
 }

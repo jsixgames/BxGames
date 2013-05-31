@@ -2,6 +2,7 @@ package br.com.beans;
 
 import br.com.interfaces.CarrinhoRemote;
 import br.com.modelos.Item_Pedido;
+import br.com.modelos.Produto;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,25 +16,25 @@ import javax.ejb.Stateful;
 @Stateful(mappedName="ejb/Cart")
 public class CarrinhoBean implements CarrinhoRemote {    
     
-    private List<Item_Pedido> items;
+    private List<Produto> items;
 
     @PostConstruct
     public void initialize() {
-        items = new ArrayList<Item_Pedido>();
+        items = new ArrayList<Produto>();
     }
 
     @Override
-    public void addItem(Item_Pedido item) {
+    public void addItem(Produto item) {
         items.add(item);
     }
 
     @Override
-    public void removeItem(Item_Pedido item) {
+    public void removeItem(Produto item) {
         items.remove(item);       
     }
 
     @Override
-    public List<Item_Pedido> getItems() {        
+    public List<Produto> getItems() {        
         return items;
     }
     

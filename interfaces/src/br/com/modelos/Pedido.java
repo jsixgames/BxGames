@@ -1,6 +1,7 @@
 package br.com.modelos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -22,7 +23,7 @@ public class Pedido implements Serializable {
     @OneToMany(cascade= CascadeType.ALL,fetch= FetchType.EAGER)
     @JoinTable(name = "Pedidos_Items",joinColumns = @JoinColumn(name = "id_pedido"),
             inverseJoinColumns = @JoinColumn(name = "id_item"))  
-    private List<Item_Pedido> item;
+    private List<Item_Pedido> item = new ArrayList<>();
     
 
     public Pedido() {
