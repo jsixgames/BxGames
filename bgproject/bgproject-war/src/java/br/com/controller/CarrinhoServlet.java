@@ -40,15 +40,17 @@ public class CarrinhoServlet extends HttpServlet {
                  if((session.getAttribute("listaitem")==null)){
                  List<Item_Pedido> prim = new ArrayList<Item_Pedido>();
                  session.setAttribute("listaitem", prim);
+                 cart.getItems().clear();
                  }                 
                  List<Item_Pedido> items = (List<Item_Pedido>) session.getAttribute("listaitem");
+                                     
                  
             try {                            
              if(req.getParameter("btn-comprar").equals("comprar1") ||
              req.getParameter("btn-comprar").equals("comprar2")){                       
                  //set id e busca produto
                  Long id = Long.parseLong(req.getParameter("prod-id"));                 
-                 Produto p = pr.find(id);                                                     
+                 Produto p = pr.find(id);                                                       
                  
                  try {
                      if (cart.getItems().isEmpty() || cart.getItems().contains(p) == false) {                         

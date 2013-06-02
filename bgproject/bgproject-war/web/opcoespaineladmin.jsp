@@ -8,6 +8,7 @@
     <body>
         <div id="menupainel">
             <ul>                                                  
+                <li><a href="PedidosServlet?evento=listarAdmin">Listar Pedidos</a></li>
                 <li><a href="AdminPanelServlet?item=listaclientes">Listar Clientes</a></li>
                 <li><a href="AdminPanelServlet?item=listaend">Listar Endereços</a></li>                
                 <li><a href="AdminPanelServlet?item=logoutadm">Sair/Logout</a></li>

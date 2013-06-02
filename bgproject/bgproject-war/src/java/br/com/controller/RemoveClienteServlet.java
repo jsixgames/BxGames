@@ -2,8 +2,11 @@ package br.com.controller;
 
 import br.com.interfaces.ClienteRemote;
 import br.com.modelos.Cliente;
+import br.com.modelos.Item_Pedido;
+import br.com.modelos.Produto;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,15 +31,25 @@ public class RemoveClienteServlet extends HttpServlet {
         String senha = (String) session.getAttribute("senhaLogado");
         try {
             if (request.getParameter("btn-encsim") != null && request.getParameter("btn-encsim").equals("Sim, tenho")) {
-                try {                                        
+                try {                                                            
+                    List<Item_Pedido> ip = (List<Item_Pedido>) session.getAttribute("listaitem");
+                    List<Produto> lp = (List<Produto>) session.getAttribute("listacarrinho");
+                    int i = ip.size();
                     Cliente c = cr.login(email, senha);
                     cr.remove(c);
                     session.invalidate();
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                    request.getSession().setAttribute("qtde", i);
+                    request.getSession().setAttribute("listacarrinho", lp);
+                    request.getSession().setAttribute("listaitem", ip);
+                  request.getRequestDispatcher("index.jsp").forward(request, response);
                 } catch (Exception e) {                                        
                     out.println("Problema ao excluir o usuario, provavel problema no glassfish");
 //                    request.getRequestDispatcher("painel.jsp").forward(request, response);                    
                 } 
+            }else{
+                if (request.getParameter("btn-encnao") != null && request.getParameter("btn-encnao").equals("Não, não tenho")){
+                    request.getRequestDispatcher("painel.jsp").forward(request, response);
+                }
             }
         } finally {
             out.close();

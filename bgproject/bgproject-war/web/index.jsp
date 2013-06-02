@@ -50,7 +50,12 @@
                 </script>
                 <%session.removeAttribute("sitcart"); %>
             </c:when>             
-
+            <c:when test="${pedidorealizado == 1}"> 
+                <script language="JavaScript" type="text/javascript">
+                alert("PEDIDO REALIZADO COM SUCESSO, ACOMPANHE A SITUAÇÃO PELO SEU PAINEL");    
+                </script>
+                <%session.removeAttribute("pedidorealizado"); %>
+            </c:when>             
             </c:choose>                  
         </div>
         

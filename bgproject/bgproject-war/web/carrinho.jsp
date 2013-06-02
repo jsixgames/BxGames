@@ -26,9 +26,9 @@
             </c:otherwise> 
         </c:choose> 
 
-          <div id="conteudo">                                            
+        <div id="conteudo2">                                            
             <h1 id="titulocadastro">Carrinho de Compras</h1>
-            <div id="tabelalista2">                                               
+            <div id="tabelalista2">                
             <table id="tablistadesejos2">
                 <tbody>
                     <tr style="background-color: #dddddd">                    
@@ -40,11 +40,13 @@
                 </tr>                
                  <% 
                List<Item_Pedido> list = (List<Item_Pedido>) session.getAttribute("listaitem");
+               double vp = 0;
+               String vps = null;
                for(int i = 0; i < list.size();i++){
                    Item_Pedido ip = list.get(i);                   
                    String preco = new MetodosGerais().doubleTostring(ip.getPreco_total());                   
                    out.println("<tr>" +
-                    "<td id='linhatabelalistapedido'>" + ip.getProduto().getId_prod() + "</td>" +
+                    "<td id='linhatabelalistapedido'>" + ip.getProduto().getId_prod() +"</td>" +
                     "<td id='linhatabelalistapedido'>" + ip.getProduto().getNome() + "</td>" +
                     "<td id='linhatabelalistapedido'>" + ip.getProduto().getDepto() + "</td>" +                 
                     "<td id='linhatabelalistapedido'><form action='CarrinhoServlet'>"
@@ -56,17 +58,39 @@
                            +"</td>" +
                     "<td id='linhatabelalistapedido'>" + preco + "</td>" +                  
                     "<td id='linhatabelalistapedido' style='border:0'>" + "<a href='CarrinhoServlet?evento=remover&item-id="
-                           +i+"'"+"><img id='imgremovecart' src='images/icon-rem.png'></a>" + "</td>" +       
+                           +i+"'"+"><img id='imgremovecart' align='Absmiddle' src='images/remover-cart.png'></a>" + "</td>" +       
                     "<td id='linhatabelalistapedido' style='border:0'>" + "</td>" +       
                             "</tr>"                                                             
                            );
-               }                                             
+                   double precototal = ip.getPreco_total();
+                   vp = vp + precototal;
+                   vps = new MetodosGerais().doubleTostring(vp);
+                        } 
+                        if(vps==null){vps="0";}
+                        out.println("<tr><td colspan='5' id='titulocolunalistapedido'><p>Valor Total:  "
+                                + "<b style='color:red;font-size: 16px'>"+vps+"</p></td></tr>");
                      %>
-            </tbody>
-            </table>                                              
-        </div>
-        </div>
-        
+                <table style="float: left;padding-left: 400px;margin: 0 auto;margin-top: 20px">
+                    <tr>
+                        <td>
+                            <c:choose>         
+                                <c:when test="${verificalog == false || verificalog == null}"> 
+                                    <h1 style="color: red;margin-left: -100px">*Você ainda não está logado, por favor faça o login para prosseguir com a compra</h1>
+                                </c:when> 
+                                <c:when test="${qtde == 0 || qtde == null}">                                    
+                                    <img style="margin-left: -150px" src="images/cart_empty.png">
+                                </c:when>    
+                                <c:otherwise>                 
+                                    <a href="FinalizarCompra?evento=ok"><div id="btn-carrinhocomprar"></div></a>
+                                    </c:otherwise> 
+                                </c:choose>      
+                        </td>
+                    </tr>    
+                </table>
+            </tbody>            
+            </table>            
+        </div>            
+        </div>                    
         <c:import url="footer.jsp" />
     </body>
 </html>

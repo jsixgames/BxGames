@@ -6,8 +6,8 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <div style="width: 1000px;height: 150px;margin: 0 auto;padding: 0;position: relative">
         <div id="footer">
-
             <div id="telefone">
                 <img src="images/tel2.png" style="margin-top:5px;margin-left: 5px; width: 36px; height: 36px;" alt="tel"/>               
                 <h3>CONTATOS</h3>
@@ -42,5 +42,6 @@
             <p>BOX GAMES © 2013 - Todos os direitos reservados</p>                  
                 
         </div>
+            </div>
     </body>
 </html>

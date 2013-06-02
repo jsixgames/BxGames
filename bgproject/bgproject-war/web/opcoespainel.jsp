@@ -9,7 +9,7 @@
         
                 <div id="menupainel">
                     <ul>                                  
-                        <li><a href="pedidos.jsp">Meus Pedidos</a></li>
+                        <li><a href="PedidosServlet?evento=listar">Meus Pedidos</a></li>
                         <li><a href="endereco.jsp">Cadastrar endereço adicional</a></li>
                         <li><a href="manuntencaoendereco.jsp">Alterar/Remover Endereços</a></li>
                         <li><a href="fale.jsp">Listas de Desejos</a></li>

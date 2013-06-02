@@ -21,7 +21,7 @@
                                 <a id="btn-comprar" href="CarrinhoServlet?btn-comprar=comprar1&prod-id=1"></a>                                
                                 <c:choose>         
                                 <c:when test="${verificalog == true}">                                 
-                                <a id="botaologout" href="ListaDesejosServlet?btn-desejo=add&prod-id=1">
+                                <a id="botaologout" href="ListaDesejosServlet?btn-desejo=add&prod-id=1">                                    
                                     <p>Adicionar a lista de desejos</p>
                                 </a>
                                 </c:when>                                 

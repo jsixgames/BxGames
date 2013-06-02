@@ -25,7 +25,7 @@
         <c:import url='headerLogado.jsp' />
         
         <div id="conteudo">                           
-            <h1 id="titulocadastro">Painel de Controle</h1>
+            <h1 id="titulocadastro">Painel de Controle</h1>            
             <div id="painelopcoes"> 
                 <c:import url='opcoespainel.jsp' />
                 <div id="painelconteudo">
@@ -52,7 +52,6 @@
                 </div>
             </div>
         </div>
-
         <c:import url="footer.jsp" />
     </body>
 </html>

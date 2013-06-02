@@ -25,7 +25,7 @@
         <c:import url='headerLogado.jsp' />
 
         <div id="conteudo">                           
-            <h1 id="titulocadastro">PAINEL DE CONTROLE - ENCERRAR CONTA</h1>
+            <h1 id="titulocadastro">Painel de Controle - Encerrar Conta</h1>
             <div id="painelopcoes"> 
                 <c:import url='opcoespainel.jsp' />           
                 <div id="painelconteudo">

@@ -1,11 +1,13 @@
 package br.com.controller;
 
 import br.com.interfaces.ClienteRemote;
-import br.com.interfaces.EnderecoRemote;
+import br.com.interfaces.PedidoRemote;
+import br.com.modelos.Cliente;
 import br.com.modelos.Item_Pedido;
-import br.com.modelos.Produto;
+import br.com.modelos.Pedido;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -13,64 +15,62 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-@WebServlet(name = "AdminPanelServlet", urlPatterns = {"/AdminPanelServlet"})
-public class AdminPanelServlet extends HttpServlet {
-    
+@WebServlet(name = "PedidosServlet", urlPatterns = {"/PedidosServlet"})
+public class PedidosServlet extends HttpServlet {
+
+    @EJB
+    private PedidoRemote pr;
     @EJB
     private ClienteRemote cr;
-    @EJB
-    private EnderecoRemote er;
-
+    
     protected void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        HttpSession session = req.getSession();
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
-        try {              
-            
-            //LISTAR CLIENTES
-            if (req.getParameter("item").equals("listaclientes")) {
-                try {                    
-                    if(session.getAttribute("listacliente") == null) {                        
-                       session.setAttribute("listacliente", cr.findAll());
-                       req.getRequestDispatcher("paineladmin.jsp").forward(req, resp);                    
-                    }                    
+        try {
+            if(req.getParameter("evento").equals("listar")){
+                String email, senha;
+                email = (String) req.getSession().getAttribute("emailLogado");
+                senha = (String) req.getSession().getAttribute("senhaLogado");
+                Cliente c = cr.login(email, senha);                
+//                List<Pedido> lp = null;
+                try {
+                    req.getSession().setAttribute("listapedidos", c.getPedido());
+                    req.getRequestDispatcher("pedidos.jsp").forward(req, resp);
                 } catch (Exception e) {
-                    out.println("Erro na busca de clientes");
+                    out.println("Erro ao pegar a lista de pedidos do cliente");
                 }                
             }
             
-            //LISTAR ENDERECOS
-            if (req.getParameter("item").equals("listaend")) {
-                try {                    
-                    if(session.getAttribute("listaend") == null) {                                                                        
-                    session.setAttribute("listaend", er.findAll());
+            if(req.getParameter("evento").equals("listarAdmin")){
+                try {
+                    req.getSession().setAttribute("listapedidos2", pr.findAll());
                     req.getRequestDispatcher("paineladmin.jsp").forward(req, resp);
-                    }                    
                 } catch (Exception e) {
-                    out.println("Erro na busca de enderecos");
+                    out.println("Erro ao pegar todos os pedidos");
+                }
+            }
+            
+            if(req.getParameter("evento").equals("atualizar")){
+                try {
+                    int i = Integer.parseInt(req.getParameter("id-ped"));
+                    String status = req.getParameter("status");
+                    List<Pedido> lp = (List<Pedido>) req.getSession().getAttribute("listapedidos2");
+//                    List<Item_Pedido> ip = (List<Item_Pedido>) req.getSession().getAttribute("listaitem");
+//                    req.getSession().setAttribute("listaitem", ip);
+                    Pedido p = lp.get(i);
+                    p.setStatus_pedido(status);                                  
+                    pr.edit(p);                        
+                    req.getSession().removeAttribute("listapedidos2");
+                    req.getRequestDispatcher("paineladmin.jsp").forward(req, resp);
+//                    req.getSession().setAttribute("listapedidos2",pr.findAll());
+                } catch (Exception e) {
+                    out.println("erro atualizar");
                     e.printStackTrace(out);
                 }
             }
-
-            //LOGOUT ADMIN
-            if (req.getParameter("item").equals("logoutadm")) {
-                 List<Item_Pedido> ip = (List<Item_Pedido>) session.getAttribute("listaitem");
-                List<Produto> lp = (List<Produto>) session.getAttribute("listacarrinho");
-                int i = ip.size();
-                try {
-                    session.invalidate();
-                req.getSession().setAttribute("qtde", i);
-                req.getSession().setAttribute("listacarrinho", lp);
-                req.getSession().setAttribute("listaitem", ip);
-                req.getRequestDispatcher("index.jsp").forward(req, resp);
-                } catch (Exception e) {
-                }
-                
-            }            
-        } finally {
+        } finally {            
             out.close();
         }
     }

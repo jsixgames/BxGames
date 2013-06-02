@@ -28,8 +28,7 @@
                         out.print("0");
                         }else{out.print(session.getAttribute("qtde"));};                                                
                         %></span>
-                        <span class="" style="display: none;">Item</span>
-                        <span class="" style="display: block;">Itens</span>                                  
+                        <span class="" style="display: block;">Produtos</span>                                  
                 </div>
             </div>
         </div>

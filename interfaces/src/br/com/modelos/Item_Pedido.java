@@ -18,7 +18,7 @@ public class Item_Pedido implements Serializable {
     private int qtd;
     private double preco_unidade;
     private double preco_total;
-    @OneToOne(cascade= CascadeType.ALL,fetch= FetchType.EAGER)    
+    @OneToOne(cascade= CascadeType.DETACH,fetch= FetchType.EAGER)    
     private Produto produto;
 
     public Item_Pedido() {

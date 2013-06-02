@@ -2,6 +2,8 @@ package br.com.controller;
 
 import br.com.interfaces.ClienteRemote;
 import br.com.modelos.Cliente;
+import br.com.modelos.Item_Pedido;
+import br.com.modelos.Produto;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -73,13 +75,23 @@ public class LoginServlet extends HttpServlet {
             }
             
             if (request.getParameter("btn_logout") != null && request.getParameter("btn_logout").equals("Logout")) {
-                try {
-                    if (session.getAttribute("verificalog") == (Object) true) {
-                        session.invalidate();
+                try {                   
+                        List<Item_Pedido> ip = (List<Item_Pedido>) session.getAttribute("listaitem");
+                        List<Produto> lp = (List<Produto>) session.getAttribute("listacarrinho");                        
+                        int i = ip.size();                        
+                    if (session.getAttribute("verificalog") == (Object) true) {                                                
+                        try {
+                            session.invalidate();                                               
+                        request.getSession().setAttribute("qtde", i);                        
+                        request.getSession().setAttribute("listacarrinho", lp);
+                        request.getSession().setAttribute("listaitem", ip);                       
                         request.getRequestDispatcher("index.jsp").forward(request, response);
+                        } catch (Exception e) {
+                        }                        
                     }
                 } catch (Exception e) {
                     out.println("Erro no loginServlet 2");
+                    e.printStackTrace(out);
                 } finally {
                     out.close();
                 }

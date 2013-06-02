@@ -2,6 +2,7 @@ package br.com.modelos;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 
 @Entity
 public class Pedido implements Serializable {
@@ -20,6 +22,11 @@ public class Pedido implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private double total_pedido;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date data_pedido;
+    private String status_pedido;
+    private int prazo_entrega;
+    private String forma_pagamento;
     @OneToMany(cascade= CascadeType.ALL,fetch= FetchType.EAGER)
     @JoinTable(name = "Pedidos_Items",joinColumns = @JoinColumn(name = "id_pedido"),
             inverseJoinColumns = @JoinColumn(name = "id_item"))  
@@ -28,6 +35,38 @@ public class Pedido implements Serializable {
 
     public Pedido() {
     }
+
+    public String getForma_pagamento() {
+        return forma_pagamento;
+    }
+
+    public void setForma_pagamento(String forma_pagamento) {
+        this.forma_pagamento = forma_pagamento;
+    }        
+
+    public Date getData_pedido() {
+        return data_pedido;
+    }
+
+    public void setData_pedido(Date data_pedido) {
+        this.data_pedido = data_pedido;
+    }
+
+    public String getStatus_pedido() {
+        return status_pedido;
+    }
+
+    public void setStatus_pedido(String status_pedido) {
+        this.status_pedido = status_pedido;
+    }
+
+    public int getPrazo_entrega() {
+        return prazo_entrega;
+    }
+
+    public void setPrazo_entrega(int prazo_entrega) {
+        this.prazo_entrega = prazo_entrega;
+    }        
 
     public List<Item_Pedido> getItem() {
         return item;

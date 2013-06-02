@@ -995,10 +995,9 @@ cursor: pointer;
 
 #titulocolunalistapedido{
     border: 1px solid #ccc;
-    text-align: center;
-    backface-visibility:  visible;
+    text-align: center;             
     color: #535353;
-    font:14px museo-sans-1, sans-serif;            
+    font:12px museo-sans-1,sans-serif;        
     border-collapse: collapse;
     padding: 2px;
 }
@@ -1009,10 +1008,45 @@ cursor: pointer;
     color: #333333;
     font:15px museo-sans-1,sans-serif;            
     border-collapse: collapse;
-    padding: 10px;
+    padding: 7px;
+}
+
+#linhatabelalistapedido2{
+    border: 1px solid #dddddd;
+    text-align: center;
+    color: #333333;
+    font:15px museo-sans-1,sans-serif;            
+    border-collapse: collapse;
+    padding: 5px;
 }
 
 #imgremovecart{
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
+    padding-top: 2px;
+}
+
+#imgcomprarlista{
+    width: 30px;
+    height: 20px;    
+}
+
+#btn-carrinhocomprar{    
+    background: url(images/fin-compra.jpg) no-repeat top left;
+    border: none;
+    border-radius: 0px;
+    text-indent: -999em;
+    position: relative;
+    width: 324px;
+    height: 49px;
+}
+
+#btn-carrinhocomprar:hover{    
+    background-position: bottom left;
+    border: none;
+    border-radius: 0px;
+    text-indent: -999em;
+    position: relative;
+    width: 324px;
+    height: 49px;
 }

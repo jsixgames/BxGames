@@ -33,11 +33,10 @@
                     <td id="titulocolunalistapedido">CÓDIGO</td>
                     <td id="titulocolunalistapedido">NOME</td>
                     <td id="titulocolunalistapedido">CATEGORIA</td>                   
-                    <td id="titulocolunalistapedido">PREÇO</td>
-                    <td id="titulocolunalistapedido" colspan="2"></td>
+                    <td id="titulocolunalistapedido">PREÇO</td>                    
                 </tr>
                  <% 
-               List<Produto> list = (List<Produto>) session.getAttribute("listadesejo");
+               List<Produto> list = (List<Produto>) session.getAttribute("listadesejo");               
                for(int i = 0; i < list.size();i++){
                    Produto p = list.get(i);                   
                    String preco = new MetodosGerais().doubleTostring(p.getPreco());                   
@@ -46,16 +45,27 @@
                     "<td id='linhatabelalistapedido'>" + p.getNome() + "</td>" +
                     "<td id='linhatabelalistapedido'>" + p.getDepto() + "</td>" +                 
                     "<td id='linhatabelalistapedido'>" + preco + "</td>" +                  
-                    "<td id='linhatabelalistapedido'>" + "<a href='ListaDesejosServlet?remover=true&prod-remove="
-                           +p.getId_prod()+"'"+">Remover</a>" + "</td>" +       
-                    "<td id='linhatabelalistapedido'>" + "<a href='CarrinhoServlet?btn-comprar=comprar1&prod-id="
-                           +p.getId_prod()+"'"+">Comprar</a>" + "</td>" +       
+                    "<td id='linhatabelalistapedido' style='border:0'>" + "<a href='ListaDesejosServlet?remover=true&prod-remove="
+                           +p.getId_prod()+"'"+"><img id='imgremovecart' src='images/remover-lista.png'></a>" + "</td>" +       
+                    "<td id='linhatabelalistapedido' style='border:0'>" + "<a href='CarrinhoServlet?btn-comprar=comprar1&prod-id="
+                           +p.getId_prod()+"'"+"><img id='imgremovecart' align='left' src='images/addcart.png'></a>" + "</td>" +       
                             "</tr>"                                                             
                            );
                }                         
-                     %>
+                     %>                     
             </tbody>
-            </table>                                              
+            </table>   
+            <table style="float: left;padding-left: 400px;margin: 0 auto;margin-top: 20px">
+                    <tr>
+                        <td>
+                            <c:choose>                                         
+                                <c:when test="${listadesejo == null}">                                    
+                                    <img style="margin-left: -150px" src="images/listaempty.png">
+                                </c:when>    
+                                </c:choose>      
+                        </td>
+                    </tr>    
+                </table>
         </div>
         </div>
         <c:import url="footer.jsp" />
